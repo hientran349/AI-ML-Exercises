@@ -49,9 +49,14 @@ git config [--global] user.email "your.email@example.com"
 
 
 ## CREATE/SWITCH/MERGE BRANCHES
+#### Fetch changes for all branches
+git fetch --all
 
 #### Show all branches
 git branch -a
+
+### Check out remote branch
+git checkout origin/branch-name
 
 
 #### Create a Branch & Push Develop Branch to GitHub
@@ -285,3 +290,4 @@ git push origin --delete tag v1.0
 
 ## CREATE A PULL REQUEST ON GITHUB
 Must be done on GitHub.
+base: branch to be imported
