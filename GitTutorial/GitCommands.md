@@ -49,14 +49,21 @@ git config [--global] user.email "your.email@example.com"
 
 
 ## CREATE/SWITCH/MERGE BRANCHES
+#### Fetch changes for all branches
+git fetch --all
 
 #### Show all branches
 git branch -a
+
+#### Check out remote branch
+git checkout -b branch-name origin/branch-name
 
 
 #### Create a Branch & Push Develop Branch to GitHub
 ```bash
 git checkout -b develop
+Note: any uncommitted changes in your working directory will be carried over to the new branch
+
 git push origin develop
 ```
 *Note: On GitHub, we will see two branches: `main` & `develop`.*
@@ -72,13 +79,91 @@ git push origin feature/w1_exs_basic_python
 ##### Switch Branches
 ```bash
 git checkout branch-name
+Note: any uncommitted changes in your working directory may not be carried over to the new branch
 ```
+
+#### Create a new branch from a specific commit
+Save the state of the repository at commit_id in a new branch for recovery or further development (but does not switch to this new branch)
+`git branch new-branch commit_id`
+
+Note: You must switch to the new branch with `git checkout new-branch` if you would like to work on it.
+
 
 ##### Delete a Branch
 ```bash
 git branch -d branch-to-delete          
 git push origin --delete branch-name
 ```
+
+
+
+
+
+
+
+##### Detached HEAD:  BE CAREFUL !!!
+If you see a message indicating you're in a detached HEAD state or your prompt shows something like `HEAD detached at <commit-id>`, you are not on a branch.
+`git status`
+`HEAD detached at <commit-id>`
+
+When you are in a detached HEAD state, your commits are not associated with any branch, but rather on a specific commit. This means that while the commit exists in your repository, it's not part of any branch, so when you switch branches, the changes aren't there
+
+
+###### REASONS
+
+A detached HEAD state occurs when you check out a commit, tag, or remote branch directly, instead of a local branch. In this state, HEAD points directly to a specific commit rather than a branch
+
+- You checked out a commit or tag
+`git checkout <commit-id>`
+`git checkout <tag-name>`
+This points HEAD directly to the specified commit/ TAG.
+
+- You checked out a remote branch as a detached HEAD
+`git checkout origin/<branch-name>`
+This checks out the remote branch as a detached HEAD, not a local branch tracking the remote branch
+
+###### HOW TO AVOID THIS ISSUE:
+
+1. Option 1: Create and checkout a Local Branch, then push it to remote repo
+`git checkout -b my-branch`
+`git push origin my-branch`
+
+2. Option 2: When checking out a remote branch, create a local tracking branch
+`git checkout -b branch-name origin/branch-name`
+
+
+
+
+
+###### HOW TO FIX THE **Detached HEAD** ISSUE:
+
+1. Commit Your Changes in Detached HEAD State [Optional step to be sure]
+`git add .`
+`git commit -m "Your commit message"`
+
+2. Create a New Temporary Branch:
+To ensure your work is not lost, create a new branch from your current detached HEAD state. This will associate your current state including recent changes with a branch name.
+`git checkout -b temporary-branch`
+Replace `temporary-branch` with a name that makes sense for your work.
+
+3. Switch Back to Your Desired Branch:
+`git checkout branch-name`
+
+4. Merge the changes from temporary-branch
+`git merge temp-branch`
+
+5. Push the merged changes to the remote repository
+`git push origin branch-name`
+
+
+*** NOTE: If you already lost your files**, you can get it back from your lastest commit of the detached HEAD state:
+`git branch recovery-branch last_commit_id`
+
+Then continue from step 3 above !
+
+
+
+
 
 
 
@@ -285,3 +370,4 @@ git push origin --delete tag v1.0
 
 ## CREATE A PULL REQUEST ON GITHUB
 Must be done on GitHub.
+base: branch to be imported
