@@ -1,0 +1,12 @@
+
+# Install Code Runner extension
+
+# Tick on
+Code-runner: File Directory As Cwd
+Whether to use the directory of the file to be executed as the working directory.
+
+# Tick on
+Code-runner: Run In Terminal
+Whether to run code in Integrated Terminal.
+
+==> This will make sure that it will CD into the current folder of the code file before running it
